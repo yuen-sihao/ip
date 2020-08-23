@@ -15,11 +15,12 @@ public class Duke {
         String command;
         Task[] tasks = new Task[100];
         int numberOfCommands = 0;
-        while (true) {
+        boolean isFinished = false;
+        while (!isFinished) {
             Scanner input = new Scanner(System.in);
             command = input.nextLine();
             if (command.equals("bye")) {
-                break;
+                isFinished = true;
             }else if (command.startsWith("done")) {
                 String[] splitCommand = command.split(" ");
                 int taskNumber = Integer.parseInt(splitCommand[1]);
