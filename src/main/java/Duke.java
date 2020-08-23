@@ -13,20 +13,33 @@ public class Duke {
         System.out.println("What can I do for you?");
         System.out.println("___________________________________");
         String command;
-        String[] commands = new String[100];
+        Task[] tasks = new Task[100];
         int numberOfCommands = 0;
         while (true) {
             Scanner input = new Scanner(System.in);
             command = input.nextLine();
             if (command.equals("bye")) {
                 break;
+            }else if (command.startsWith("done")) {
+                String[] splitCommand = command.split(" ");
+                int taskNumber = Integer.parseInt(splitCommand[1]);
+                System.out.println("___________________________________");
+                tasks[(taskNumber - 1)].markAsDone();
+                System.out.println("Nice! I've marked this task as done:");
+                System.out.println("[" + tasks[(taskNumber - 1)].getStatusIcon() + "] "
+                        + tasks[(taskNumber - 1)].description);
+                System.out.println("___________________________________");
             } else if (command.equals("list")) {
+                System.out.println("___________________________________");
+                System.out.println("Here are the tasks in your list:");
                 for (int i = 0; i < numberOfCommands; i++) {
-                    System.out.println((i + 1) + ". " + commands[i]);
+                    System.out.println((i + 1) + ".[" + tasks[i].getStatusIcon() + "] "
+                            + tasks[i].description);
                 }
                 System.out.println("___________________________________");
             } else {
-                commands[numberOfCommands] = command;
+                Task newTask = new Task(command);
+                tasks[numberOfCommands] = newTask;
                 numberOfCommands++;
                 System.out.println("___________________________________");
                 System.out.println("added: " + command);
