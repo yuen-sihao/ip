@@ -1,9 +1,16 @@
 public class Task {
-    protected String description;
-    protected boolean isDone;
+    private String description;
+    private boolean isDone;
+    private static int numberOfCommands;
+
     public Task(String description) {
         this.description = description;
         this.isDone = false;
+
+        this.numberOfCommands++;
+    }
+    public String getDescription() {
+        return description;
     }
     public String getStatusIcon() {
         if (isDone == true) {
@@ -11,6 +18,9 @@ public class Task {
         } else {
             return "\u2718";
         }
+    }
+    public static int getNumberOfCommands() {
+        return numberOfCommands;
     }
     public void markAsDone() {
         this.isDone = true;

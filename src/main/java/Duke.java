@@ -14,7 +14,6 @@ public class Duke {
         System.out.println("___________________________________");
         String command;
         Task[] tasks = new Task[100];
-        int numberOfCommands = 0;
         boolean isFinished = false;
         while (!isFinished) {
             Scanner input = new Scanner(System.in);
@@ -25,23 +24,22 @@ public class Duke {
                 String[] splitCommand = command.split(" ");
                 int taskNumber = Integer.parseInt(splitCommand[1]);
                 System.out.println("___________________________________");
-                tasks[(taskNumber - 1)].markAsDone();
+                tasks[(taskNumber)].markAsDone();
                 System.out.println("Nice! I've marked this task as done:");
-                System.out.println("[" + tasks[(taskNumber - 1)].getStatusIcon() + "] "
-                        + tasks[(taskNumber - 1)].description);
+                System.out.println("[" + tasks[(taskNumber)].getStatusIcon() + "] "
+                        + tasks[(taskNumber)].getDescription());
                 System.out.println("___________________________________");
             } else if (command.equals("list")) {
                 System.out.println("___________________________________");
                 System.out.println("Here are the tasks in your list:");
-                for (int i = 0; i < numberOfCommands; i++) {
-                    System.out.println((i + 1) + ".[" + tasks[i].getStatusIcon() + "] "
-                            + tasks[i].description);
+                for (int i = 0; i < Task.getNumberOfCommands(); i++) {
+                    System.out.println((i + 1) + ".[" + tasks[i + 1].getStatusIcon() + "] "
+                            + tasks[i + 1].getDescription());
                 }
                 System.out.println("___________________________________");
             } else {
                 Task newTask = new Task(command);
-                tasks[numberOfCommands] = newTask;
-                numberOfCommands++;
+                tasks[Task.getNumberOfCommands()] = newTask;
                 System.out.println("___________________________________");
                 System.out.println("added: " + command);
                 System.out.println("___________________________________");
