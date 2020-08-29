@@ -1,13 +1,15 @@
 public class Task {
-    private String description;
+    private final String description;
     private boolean isDone;
-    private static int numberOfCommands;
+    private static int numberOfTask;
+
+    private final String typeOfTask = "";
 
     public Task(String description) {
         this.description = description;
         this.isDone = false;
 
-        this.numberOfCommands++;
+        numberOfTask++;
     }
     public String getDescription() {
         return description;
@@ -19,10 +21,14 @@ public class Task {
             return "\u2718";
         }
     }
-    public static int getNumberOfCommands() {
-        return numberOfCommands;
+    public static int getNumberOfTask() {
+        return numberOfTask;
     }
     public void markAsDone() {
         this.isDone = true;
+    }
+
+    public String getTypeOfTask() {
+        return typeOfTask;
     }
 }
