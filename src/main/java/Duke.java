@@ -41,7 +41,7 @@ public class Duke {
 
         switch (typeOfTask) {
         case "todo": {
-            Task newTask = new ToDos(description);
+            Task newTask = new ToDo(description);
             tasks[Task.getNumberOfTask()] = newTask;
             printDetailsOfAddedTask(newTask);
             break;
@@ -49,8 +49,7 @@ public class Duke {
         case "deadline": {
             String[] deadlineDetails = description.split("/by");
             String deadline = deadlineDetails[1].trim();
-            String printedDescription = deadlineDetails[0] + "(by: " + deadline + ")";
-            Task newTask = new Deadlines(printedDescription);
+            Task newTask = new Deadline(deadlineDetails[0], deadline);
             tasks[Task.getNumberOfTask()] = newTask;
             printDetailsOfAddedTask(newTask);
             break;
@@ -58,8 +57,7 @@ public class Duke {
         case "event": {
             String[] eventDetails = description.split("/at");
             String eventDateTime = eventDetails[1].trim();
-            String printedDescription = eventDetails[0] + "(at: " + eventDateTime + ")";
-            Task newTask = new Events(printedDescription);
+            Task newTask = new Event(eventDetails[0], eventDateTime);
             tasks[Task.getNumberOfTask()] = newTask;
             printDetailsOfAddedTask(newTask);
             break;
@@ -75,17 +73,14 @@ public class Duke {
         printSingleLine();
         task.markAsDone();
         System.out.println("Nice! I've marked this task as done:");
-        System.out.println("[" + task.getStatusIcon() + "] "
-                + task.getDescription());
+        System.out.println(task.toString());
         printSingleLine();
     }
 
     private static void printDetailsOfAddedTask(Task newTask) {
         printSingleLine();
         System.out.println("Got it. I've added this task:");
-        System.out.println("[" + newTask.getTypeOfTask() + "]"
-                + "[" + newTask.getStatusIcon() + "] "
-                + newTask.getDescription());
+        System.out.println(newTask.toString());
         System.out.println("Now you have " + Task.getNumberOfTask() + " tasks in the list.");
         printSingleLine();
     }
@@ -94,9 +89,7 @@ public class Duke {
         printSingleLine();
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < Task.getNumberOfTask(); i++) {
-            System.out.println((i + 1) + ".[" + tasks[i + 1].getTypeOfTask()
-                    + "][" + tasks[i + 1].getStatusIcon() + "] "
-                    + tasks[i + 1].getDescription());
+            System.out.println((i + 1) + "." + tasks[(i + 1)].toString());
         }
         printSingleLine();
     }
