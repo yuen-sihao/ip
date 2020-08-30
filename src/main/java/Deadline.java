@@ -1,5 +1,4 @@
 public class Deadline extends Task {
-
     private final String typeOfTask;
     private String deadline;
 

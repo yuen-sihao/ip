@@ -1,5 +1,4 @@
 public class Event extends Task {
-
     private final String typeOfTask;
     private String eventDateTime;
 
