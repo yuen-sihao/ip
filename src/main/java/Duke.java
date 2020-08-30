@@ -1,15 +1,14 @@
 import java.util.Scanner;
 
 public class Duke {
-    public static final int MAX_NUMBER_OF_TASK = 100;
-
     public static void main(String[] args) {
         printWelcomeMessage();
-        Task[] tasks = new Task[MAX_NUMBER_OF_TASK];
+        String command;
+        Task[] tasks = new Task[100];
         boolean isFinished = false;
         while (!isFinished) {
             Scanner input = new Scanner(System.in);
-            String command = input.nextLine();
+            command = input.nextLine();
             if (command.equals("bye")) {
                 printGoodbyeMessage();
                 isFinished = true;
@@ -41,59 +40,33 @@ public class Duke {
         String description = detailsOfTask.trim();
 
         switch (typeOfTask) {
-        case "todo":
-            createTodoTask(tasks, description);
-            break;
-        case "deadline":
-            createDeadlineTask(tasks, description);
-            break;
-        case "event":
-            createEventTask(tasks, description);
-            break;
-        case "done":
-            updateTaskAsComplete(tasks, description);
-            break;
-        default:
-            printInvalidTaskMessage();
+        case "todo": {
+            Task newTask = new ToDo(description);
+            tasks[Task.getNumberOfTask()] = newTask;
+            printDetailsOfAddedTask(newTask);
             break;
         }
-    }
-
-    private static void printInvalidTaskMessage() {
-        printSingleLine();
-        System.out.println("I'm sorry I don't understand you" + System.lineSeparator()
-                + "Would you like to tell me again?");
-        printSingleLine();
-    }
-
-    private static void updateTaskAsComplete(Task[] tasks, String description) {
-        int taskNumber = Integer.parseInt(description);
-        printDetailsOfCompletedTask(tasks[taskNumber]);
-    }
-
-    private static void createEventTask(Task[] tasks, String description) {
-        Task newTask;
-        String[] eventDetails = description.split("/at");
-        String eventDateTime = eventDetails[1].trim();
-        newTask = new Event(eventDetails[0], eventDateTime);
-        tasks[Task.getNumberOfTask()] = newTask;
-        printDetailsOfAddedTask(newTask);
-    }
-
-    private static void createDeadlineTask(Task[] tasks, String description) {
-        Task newTask;
-        String[] deadlineDetails = description.split("/by");
-        String deadline = deadlineDetails[1].trim();
-        newTask = new Deadline(deadlineDetails[0], deadline);
-        tasks[Task.getNumberOfTask()] = newTask;
-        printDetailsOfAddedTask(newTask);
-    }
-
-    private static void createTodoTask(Task[] tasks, String description) {
-        Task newTask;
-        newTask = new ToDo(description);
-        tasks[Task.getNumberOfTask()] = newTask;
-        printDetailsOfAddedTask(newTask);
+        case "deadline": {
+            String[] deadlineDetails = description.split("/by");
+            String deadline = deadlineDetails[1].trim();
+            Task newTask = new Deadline(deadlineDetails[0], deadline);
+            tasks[Task.getNumberOfTask()] = newTask;
+            printDetailsOfAddedTask(newTask);
+            break;
+        }
+        case "event": {
+            String[] eventDetails = description.split("/at");
+            String eventDateTime = eventDetails[1].trim();
+            Task newTask = new Event(eventDetails[0], eventDateTime);
+            tasks[Task.getNumberOfTask()] = newTask;
+            printDetailsOfAddedTask(newTask);
+            break;
+        }
+        case "done":
+            int taskNumber = Integer.parseInt(description);
+            printDetailsOfCompletedTask(tasks[taskNumber]);
+            break;
+        }
     }
 
     private static void printDetailsOfCompletedTask(Task task) {

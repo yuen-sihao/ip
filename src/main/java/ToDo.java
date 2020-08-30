@@ -1,4 +1,5 @@
 public class ToDo extends Task {
+
     private final String typeOfTask;
 
     public ToDo(String description) {

@@ -1,13 +1,13 @@
 public class Task {
-    private static int numberOfTask;
 
     private final String description;
     private boolean isDone;
+    private static int numberOfTask;
     private final String typeOfTask = "";
 
     public Task(String description) {
         this.description = description;
-        isDone = false;
+        this.isDone = false;
         numberOfTask++;
     }
 
@@ -28,7 +28,7 @@ public class Task {
     }
 
     public void markAsDone() {
-        isDone = true;
+        this.isDone = true;
     }
 
     public String getTypeOfTask() {
