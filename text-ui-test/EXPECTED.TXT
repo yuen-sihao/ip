@@ -7,10 +7,10 @@ Hello from
 
 ___________________________________
 Hello! I'm Duke
-What can I do for you?
+How can I help you?
 ___________________________________
 ___________________________________
-Got it. I've added this task:
+One more thing you got to do. Press on!
 [T][✘] borrow book
 Now you have 1 tasks in the list.
 ___________________________________
@@ -19,17 +19,17 @@ Here are the tasks in your list:
 1.[T][✘] borrow book
 ___________________________________
 ___________________________________
-Got it. I've added this task:
+One more thing you got to do. Press on!
 [D][✘] return book (by: Sunday)
 Now you have 2 tasks in the list.
 ___________________________________
 ___________________________________
-Got it. I've added this task:
+One more thing you got to do. Press on!
 [E][✘] project meeting (at: Mon 2-4pm)
 Now you have 3 tasks in the list.
 ___________________________________
 ___________________________________
-Got it. I've added this task:
+One more thing you got to do. Press on!
 [D][✘] do homework (by: no idea :-p)
 Now you have 4 tasks in the list.
 ___________________________________
@@ -41,11 +41,11 @@ Here are the tasks in your list:
 4.[D][✘] do homework (by: no idea :-p)
 ___________________________________
 ___________________________________
-Nice! I've marked this task as done:
+Nice. One more down!
 [D][✓] return book (by: Sunday)
 ___________________________________
 ___________________________________
-Nice! I've marked this task as done:
+Nice. One more down!
 [D][✓] do homework (by: no idea :-p)
 ___________________________________
 ___________________________________
@@ -56,5 +56,5 @@ Here are the tasks in your list:
 4.[D][✓] do homework (by: no idea :-p)
 ___________________________________
 ___________________________________
-Bye. Hope to see you again soon!
+Bye. See you soon!
 ___________________________________

@@ -35,37 +35,40 @@ public class Duke {
         System.out.println("Hello from\n" + logo);
         printSingleLine();
         System.out.println("Hello! I'm Duke");
-        System.out.println("What can I do for you?");
+        System.out.println("How can I help you?");
         printSingleLine();
     }
 
     private static void updateListOfTask(String command, Task[] tasks) {
         int indexToSplit = command.indexOf(' ');
-        String typeOfTask = command.substring(0, indexToSplit);
-        String detailsOfTask = command.substring(indexToSplit);
-        String description = detailsOfTask.trim();
-
-        switch (typeOfTask) {
-        case "todo":
-            createTodoTask(tasks, description);
-            break;
-        case "deadline":
-            createDeadlineTask(tasks, description);
-            break;
-        case "event":
-            createEventTask(tasks, description);
-            break;
-        case "done":
-            updateTaskAsComplete(tasks, description);
-            break;
-        default:
+        if (indexToSplit == -1) {
             printInvalidTaskMessage();
-            break;
+        } else {
+            String typeOfTask = command.substring(0, indexToSplit);
+            String description = command.substring(indexToSplit);
+            description = description.trim();
+
+            switch (typeOfTask) {
+            case "todo":
+                createTodoTask(tasks, description);
+                break;
+            case "deadline":
+                createDeadlineTask(tasks, description);
+                break;
+            case "event":
+                createEventTask(tasks, description);
+                break;
+            case "done":
+                updateTaskAsComplete(tasks, description);
+                break;
+            default:
+                printInvalidTaskMessage();
+                break;
+            }
         }
     }
 
     private static void printInvalidTaskMessage() {
-//        printSingleLine();
         System.out.println("I'm sorry I don't understand you." + System.lineSeparator()
                 + "Would you like to tell me again?");
         printSingleLine();
@@ -73,6 +76,7 @@ public class Duke {
 
     private static void updateTaskAsComplete(Task[] tasks, String description) {
         int taskNumber = Integer.parseInt(description);
+        tasks[taskNumber].markAsDone();
         printDetailsOfCompletedTask(tasks[taskNumber]);
     }
 
@@ -99,33 +103,32 @@ public class Duke {
     }
 
     private static void printDetailsOfCompletedTask(Task task) {
-//        printSingleLine();
-        task.markAsDone();
-        System.out.println("Nice! I've marked this task as done:");
+        System.out.println("Nice. One more down!");
         System.out.println(task.toString());
         printSingleLine();
     }
 
     private static void printDetailsOfAddedTask(Task newTask) {
-//        printSingleLine();
-        System.out.println("Got it. I've added this task:");
+        System.out.println("One more thing you got to do. Press on!");
         System.out.println(newTask.toString());
         System.out.println("Now you have " + Task.getNumberOfTask() + " tasks in the list.");
         printSingleLine();
     }
 
     private static void printListOfTask(Task[] tasks) {
-//        printSingleLine();
-        System.out.println("Here are the tasks in your list:");
-        for (int i = 0; i < Task.getNumberOfTask(); i++) {
-            System.out.println((i + 1) + "." + tasks[(i + 1)].toString());
+        if (Task.getNumberOfTask() == 0) {
+            System.out.println("Wow! I see that your list is empty");
+        } else {
+            System.out.println("Here are the tasks in your list:");
+            for (int i = 0; i < Task.getNumberOfTask(); i++) {
+                System.out.println((i + 1) + "." + tasks[(i + 1)].toString());
+            }
         }
         printSingleLine();
     }
 
     private static void printGoodbyeMessage() {
-//        printSingleLine();
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("Bye. See you soon!");
         printSingleLine();
     }
 
