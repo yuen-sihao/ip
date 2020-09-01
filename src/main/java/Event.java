@@ -1,6 +1,6 @@
 public class Event extends Task {
     private final String typeOfTask;
-    private String eventDateTime;
+    private final String eventDateTime;
 
     public Event(String description, String eventDateTime) {
         super(description);
@@ -8,7 +8,6 @@ public class Event extends Task {
         typeOfTask = "E";
     }
 
-    @Override
     public String getTypeOfTask() {
         return typeOfTask;
     }

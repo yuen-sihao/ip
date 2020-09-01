@@ -1,6 +1,6 @@
 public class Deadline extends Task {
     private final String typeOfTask;
-    private String deadline;
+    private final String deadline;
 
     public Deadline(String description, String deadline) {
         super(description);
@@ -8,7 +8,6 @@ public class Deadline extends Task {
         typeOfTask = "D";
     }
 
-    @Override
     public String getTypeOfTask() {
         return typeOfTask;
     }

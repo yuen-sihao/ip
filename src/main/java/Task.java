@@ -3,7 +3,6 @@ public class Task {
 
     private final String description;
     private boolean isDone;
-    private final String typeOfTask = "";
 
     public Task(String description) {
         this.description = description;
@@ -12,7 +11,7 @@ public class Task {
     }
 
     public String getStatusIcon() {
-        if (isDone == true) {
+        if (isDone) {
             return "\u2713";
         } else {
             return "\u2718";
@@ -24,11 +23,7 @@ public class Task {
     }
 
     public void markAsDone() {
-        this.isDone = true;
-    }
-
-    public String getTypeOfTask() {
-        return typeOfTask;
+        isDone = true;
     }
 
     @Override

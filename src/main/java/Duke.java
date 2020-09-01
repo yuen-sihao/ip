@@ -39,6 +39,42 @@ public class Duke {
         printSingleLine();
     }
 
+    private static void printGoodbyeMessage() {
+        System.out.println("Bye. See you soon!");
+        printSingleLine();
+    }
+
+    private static void printListOfTask(Task[] tasks) {
+        if (Task.getNumberOfTask() == 0) {
+            System.out.println("Wow! I see that your list is empty");
+        } else {
+            System.out.println("Here are the tasks in your list:");
+            for (int i = 0; i < Task.getNumberOfTask(); i++) {
+                System.out.println((i + 1) + "." + tasks[(i + 1)].toString());
+            }
+        }
+        printSingleLine();
+    }
+
+    private static void printDetailsOfAddedTask(Task newTask) {
+        System.out.println("One more thing you got to do. Press on!");
+        System.out.println(newTask.toString());
+        System.out.println("Now you have " + Task.getNumberOfTask() + " tasks in the list.");
+        printSingleLine();
+    }
+
+    private static void updateTaskAsComplete(Task[] tasks, String description) {
+        int taskNumber = Integer.parseInt(description);
+        tasks[taskNumber].markAsDone();
+        printDetailsOfCompletedTask(tasks[taskNumber]);
+    }
+
+    private static void printDetailsOfCompletedTask(Task task) {
+        System.out.println("Nice. One more down!");
+        System.out.println(task.toString());
+        printSingleLine();
+    }
+
     private static void updateListOfTask(String command, Task[] tasks) {
         int indexToSplit = command.indexOf(' ');
         if (indexToSplit == -1) {
@@ -68,22 +104,8 @@ public class Duke {
         }
     }
 
-    private static void printInvalidTaskMessage() {
-        System.out.println("I'm sorry I don't understand you." + System.lineSeparator()
-                + "Would you like to tell me again?");
-        printSingleLine();
-    }
-
-    private static void updateTaskAsComplete(Task[] tasks, String description) {
-        int taskNumber = Integer.parseInt(description);
-        tasks[taskNumber].markAsDone();
-        printDetailsOfCompletedTask(tasks[taskNumber]);
-    }
-
-    private static void createEventTask(Task[] tasks, String description) {
-        String[] eventDetails = description.split("/at");
-        String eventDateTime = eventDetails[1].trim();
-        Task newTask = new Event(eventDetails[0], eventDateTime);
+    private static void createTodoTask(Task[] tasks, String description) {
+        Task newTask = new ToDo(description);
         tasks[Task.getNumberOfTask()] = newTask;
         printDetailsOfAddedTask(newTask);
     }
@@ -96,39 +118,17 @@ public class Duke {
         printDetailsOfAddedTask(newTask);
     }
 
-    private static void createTodoTask(Task[] tasks, String description) {
-        Task newTask = new ToDo(description);
+    private static void createEventTask(Task[] tasks, String description) {
+        String[] eventDetails = description.split("/at");
+        String eventDateTime = eventDetails[1].trim();
+        Task newTask = new Event(eventDetails[0], eventDateTime);
         tasks[Task.getNumberOfTask()] = newTask;
         printDetailsOfAddedTask(newTask);
     }
 
-    private static void printDetailsOfCompletedTask(Task task) {
-        System.out.println("Nice. One more down!");
-        System.out.println(task.toString());
-        printSingleLine();
-    }
-
-    private static void printDetailsOfAddedTask(Task newTask) {
-        System.out.println("One more thing you got to do. Press on!");
-        System.out.println(newTask.toString());
-        System.out.println("Now you have " + Task.getNumberOfTask() + " tasks in the list.");
-        printSingleLine();
-    }
-
-    private static void printListOfTask(Task[] tasks) {
-        if (Task.getNumberOfTask() == 0) {
-            System.out.println("Wow! I see that your list is empty");
-        } else {
-            System.out.println("Here are the tasks in your list:");
-            for (int i = 0; i < Task.getNumberOfTask(); i++) {
-                System.out.println((i + 1) + "." + tasks[(i + 1)].toString());
-            }
-        }
-        printSingleLine();
-    }
-
-    private static void printGoodbyeMessage() {
-        System.out.println("Bye. See you soon!");
+    private static void printInvalidTaskMessage() {
+        System.out.println("I'm sorry I don't understand you." + System.lineSeparator()
+                + "Would you like to tell me again?");
         printSingleLine();
     }
 

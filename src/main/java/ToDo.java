@@ -6,7 +6,6 @@ public class ToDo extends Task {
         typeOfTask = "T";
     }
 
-    @Override
     public String getTypeOfTask() {
         return typeOfTask;
     }
