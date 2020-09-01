@@ -8,9 +8,13 @@ public class Duke {
         String command;
         Task[] tasks = new Task[MAX_NUMBER_OF_TASK];
         boolean isFinished = false;
+        Scanner input = new Scanner(System.in);
         while (!isFinished) {
-            Scanner input = new Scanner(System.in);
+            if (!input.hasNextLine()) {
+                break;
+            }
             command = input.nextLine();
+            printSingleLine();
             if (command.equals("bye")) {
                 printGoodbyeMessage();
                 isFinished = true;
@@ -61,7 +65,7 @@ public class Duke {
     }
 
     private static void printInvalidTaskMessage() {
-        printSingleLine();
+//        printSingleLine();
         System.out.println("I'm sorry I don't understand you." + System.lineSeparator()
                 + "Would you like to tell me again?");
         printSingleLine();
@@ -95,7 +99,7 @@ public class Duke {
     }
 
     private static void printDetailsOfCompletedTask(Task task) {
-        printSingleLine();
+//        printSingleLine();
         task.markAsDone();
         System.out.println("Nice! I've marked this task as done:");
         System.out.println(task.toString());
@@ -103,7 +107,7 @@ public class Duke {
     }
 
     private static void printDetailsOfAddedTask(Task newTask) {
-        printSingleLine();
+//        printSingleLine();
         System.out.println("Got it. I've added this task:");
         System.out.println(newTask.toString());
         System.out.println("Now you have " + Task.getNumberOfTask() + " tasks in the list.");
@@ -111,7 +115,7 @@ public class Duke {
     }
 
     private static void printListOfTask(Task[] tasks) {
-        printSingleLine();
+//        printSingleLine();
         System.out.println("Here are the tasks in your list:");
         for (int i = 0; i < Task.getNumberOfTask(); i++) {
             System.out.println((i + 1) + "." + tasks[(i + 1)].toString());
@@ -120,7 +124,7 @@ public class Duke {
     }
 
     private static void printGoodbyeMessage() {
-        printSingleLine();
+//        printSingleLine();
         System.out.println("Bye. Hope to see you again soon!");
         printSingleLine();
     }
