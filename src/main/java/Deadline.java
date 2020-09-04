@@ -1,6 +1,6 @@
 public class Deadline extends Task {
-    private final String typeOfTask;
-    private final String deadline;
+    private String typeOfTask;
+    private String deadline;
 
     public Deadline(String description, String deadline) {
         super(description);
@@ -8,12 +8,8 @@ public class Deadline extends Task {
         typeOfTask = "D";
     }
 
-    public String getTypeOfTask() {
-        return typeOfTask;
-    }
-
     @Override
     public String toString() {
-        return "[" + getTypeOfTask() + "]" + super.toString() + "(by: " + deadline + ")";
+        return "[" + typeOfTask + "]" + super.toString() + "(by: " + deadline + ")";
     }
 }
