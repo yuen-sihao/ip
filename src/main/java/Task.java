@@ -1,7 +1,7 @@
 public class Task {
-    private static int numberOfTask;
+    private static int numberOfTask = 0;
 
-    private final String description;
+    private String description;
     private boolean isDone;
 
     public Task(String description) {
