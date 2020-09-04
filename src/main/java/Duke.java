@@ -9,10 +9,7 @@ public class Duke {
         Task[] tasks = new Task[MAX_NUMBER_OF_TASK];
         boolean isFinished = false;
         Scanner input = new Scanner(System.in);
-        while (!isFinished) {
-            if (!input.hasNextLine()) {
-                break;
-            }
+        while (!isFinished && input.hasNextLine()) {
             command = input.nextLine();
             printSingleLine();
             if (command.equals("bye")) {
@@ -84,23 +81,56 @@ public class Duke {
             String description = command.substring(indexToSplit);
             description = description.trim();
 
-            switch (typeOfTask) {
-            case "todo":
-                createTodoTask(tasks, description);
-                break;
-            case "deadline":
-                createDeadlineTask(tasks, description);
-                break;
-            case "event":
-                createEventTask(tasks, description);
-                break;
-            case "done":
-                updateTaskAsComplete(tasks, description);
-                break;
-            default:
-                printInvalidTaskMessage();
-                break;
-            }
+            determineTypeOfTask(tasks, typeOfTask, description);
+        }
+    }
+
+    private static void determineTypeOfTask(Task[] tasks, String typeOfTask, String description) {
+        switch (typeOfTask) {
+        case "todo":
+            createTodoTask(tasks, description);
+            break;
+        case "deadline":
+            checkValidityOfDeadline(tasks, description);
+            break;
+        case "event":
+            checkValidityOfEvent(tasks, description);
+            break;
+        case "done":
+            checkValidityOfCompletedTask(tasks, description);
+            break;
+        default:
+            printInvalidTaskMessage();
+            break;
+        }
+    }
+
+    private static void checkValidityOfDeadline(Task[] tasks, String description) {
+        try {
+            createDeadlineTask(tasks, description);
+        } catch (DukeException e) {
+            System.out.println("You need to let me know" + System.lineSeparator()
+                    + "\"deadline <task name> /by <deadline details>\"");
+            printSingleLine();
+        }
+    }
+
+    private static void checkValidityOfEvent(Task[] tasks, String description) {
+        try {
+            createEventTask(tasks, description);
+        } catch (DukeException e) {
+            System.out.println("You need to let me know" + System.lineSeparator()
+                    + "\"event <task name> /at <event details>\"");
+            printSingleLine();
+        }
+    }
+
+    private static void checkValidityOfCompletedTask(Task[] tasks, String description) {
+        try {
+            updateTaskAsComplete(tasks, description);
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException e) {
+            System.out.println("I see no such task number. You're making me confused!");
+            printSingleLine();
         }
     }
 
@@ -110,7 +140,10 @@ public class Duke {
         printDetailsOfAddedTask(newTask);
     }
 
-    private static void createDeadlineTask(Task[] tasks, String description) {
+    private static void createDeadlineTask(Task[] tasks, String description) throws DukeException {
+        if (!description.contains("/by")) {
+            throw new DukeException();
+        }
         String[] deadlineDetails = description.split("/by");
         String deadline = deadlineDetails[1].trim();
         Task newTask = new Deadline(deadlineDetails[0], deadline);
@@ -118,7 +151,10 @@ public class Duke {
         printDetailsOfAddedTask(newTask);
     }
 
-    private static void createEventTask(Task[] tasks, String description) {
+    private static void createEventTask(Task[] tasks, String description) throws DukeException {
+        if (!description.contains("/at")) {
+            throw new DukeException();
+        }
         String[] eventDetails = description.split("/at");
         String eventDateTime = eventDetails[1].trim();
         Task newTask = new Event(eventDetails[0], eventDateTime);
@@ -133,6 +169,6 @@ public class Duke {
     }
 
     private static void printSingleLine() {
-        System.out.println("___________________________________");
+        System.out.println("_____________________________________________");
     }
 }
