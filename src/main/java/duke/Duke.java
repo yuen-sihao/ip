@@ -7,6 +7,9 @@ import duke.task.Task;
 import duke.task.ToDo;
 
 import java.util.ArrayList;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
@@ -26,6 +29,7 @@ public class Duke {
                 printListOfTask(tasks);
             } else {
                 updateListOfTask(command, tasks);
+                saveListToFile(tasks);
             }
         }
     }
@@ -62,8 +66,8 @@ public class Duke {
         try {
             createDeadlineTask(tasks, description);
         } catch (DukeException e) {
-            System.out.println("You need to let me know" + System.lineSeparator()
-                    + "\"deadline <task name> /by <deadline details>\"");
+            System.out.println("You need to let me know"
+                    + System.lineSeparator() + "\"deadline <task name> /by <deadline details>\"");
             printSingleLine();
         }
     }
@@ -82,8 +86,8 @@ public class Duke {
         try {
             createEventTask(tasks, description);
         } catch (DukeException e) {
-            System.out.println("You need to let me know" + System.lineSeparator()
-                    + "\"event <task name> /at <event details>\"");
+            System.out.println("You need to let me know"
+                    + System.lineSeparator() + "\"event <task name> /at <event details>\"");
             printSingleLine();
         }
     }
@@ -161,7 +165,7 @@ public class Duke {
     private static void checkValidityOfCompletedTask(ArrayList<Task> tasks, String description) {
         try {
             updateTaskAsComplete(tasks, description);
-        } catch (NumberFormatException | ArrayIndexOutOfBoundsException | NullPointerException e) {
+        } catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
             System.out.println("I see no such task number. You're making me confused!");
             printSingleLine();
         }
@@ -181,8 +185,8 @@ public class Duke {
     }
 
     private static void printInvalidTaskMessage() {
-        System.out.println("I'm sorry I don't understand you." + System.lineSeparator()
-                + "Would you like to tell me again?");
+        System.out.println("I'm sorry I don't understand you."
+                + System.lineSeparator() + "Would you like to tell me again?");
         printSingleLine();
     }
 
@@ -206,5 +210,40 @@ public class Duke {
 
     private static void printSingleLine() {
         System.out.println("_____________________________________________");
+    }
+
+    private static void writeDataToFile(String pathOfFile, String dataToAdd) throws IOException {
+        FileWriter fw = new FileWriter(pathOfFile);
+        fw.write(dataToAdd);
+        fw.close();
+    }
+
+    private static void appendDataToFile(String pathOfFile, String dataToAppend) throws IOException {
+        FileWriter fw = new FileWriter(pathOfFile, true);
+        fw.write(dataToAppend);
+        fw.close();
+    }
+
+    private static void saveListToFile(ArrayList<Task> tasks) {
+        File directory = new File("data/");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        String pathOfDataFile = "data/duke.txt";
+        File dataFile = new File(pathOfDataFile);
+        try {
+            if (!dataFile.exists()) {
+                dataFile.createNewFile();
+            }
+            writeDataToFile(pathOfDataFile, "Here are the tasks in your list:"
+                    + System.lineSeparator());
+            for (int i = 0; i < tasks.size(); i++) {
+                String taskDetails = tasks.get(i).toString();
+                appendDataToFile(pathOfDataFile, (i + 1) + ". "
+                        + taskDetails + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Invalid I/O");
+        }
     }
 }
