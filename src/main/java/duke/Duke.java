@@ -6,6 +6,9 @@ import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
@@ -27,7 +30,31 @@ public class Duke {
                 printListOfTask(tasks);
             } else {
                 updateListOfTask(command, tasks);
+                saveListToFile(tasks);
             }
+        }
+    }
+
+    private static void saveListToFile(Task[] tasks) {
+        File directory = new File("data/");
+        if (!directory.exists()) {
+            directory.mkdir();
+        }
+        String pathOfDataFile = "data/duke.txt";
+        File dataFile = new File(pathOfDataFile);
+        try {
+            if (!dataFile.exists()) {
+                dataFile.createNewFile();
+            }
+            writeDataToFile(pathOfDataFile, "Here are the tasks in your list:"
+                    + System.lineSeparator());
+            for (int i = 0; i < Task.getNumberOfTask(); i++) {
+                String taskDetails = tasks[(i + 1)].toString();
+                appendDataToFile(pathOfDataFile, (i + 1) + ". " + taskDetails
+                        + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.out.println("Invalid I/O");
         }
     }
 
@@ -178,5 +205,17 @@ public class Duke {
 
     private static void printSingleLine() {
         System.out.println("_____________________________________________");
+    }
+
+    private static void writeDataToFile(String pathOfFile, String dataToAdd) throws IOException {
+        FileWriter fw = new FileWriter(pathOfFile);
+        fw.write(dataToAdd);
+        fw.close();
+    }
+
+    private static void appendDataToFile(String pathOfFile, String dataToAppend) throws IOException {
+        FileWriter fw = new FileWriter(pathOfFile, true);
+        fw.write(dataToAppend);
+        fw.close();
     }
 }
