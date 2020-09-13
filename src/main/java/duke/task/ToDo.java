@@ -8,6 +8,10 @@ public class ToDo extends Task {
         typeOfTask = "T";
     }
 
+    public String getTypeOfTask() {
+        return typeOfTask;
+    }
+
     @Override
     public String toString() {
         return "[" + typeOfTask + "]" + super.toString();

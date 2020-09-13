@@ -1,6 +1,6 @@
 package duke.task;
 
-public class Task {
+public abstract class Task {
     private String description;
     private boolean isDone;
 
@@ -20,6 +20,12 @@ public class Task {
     public void markAsDone() {
         isDone = true;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public abstract String getTypeOfTask();
 
     @Override
     public String toString() {

@@ -10,6 +10,14 @@ public class Event extends Task {
         typeOfTask = "E";
     }
 
+    public String getTypeOfTask() {
+        return typeOfTask;
+    }
+
+    public String getEventDateTime() {
+        return eventDateTime;
+    }
+
     @Override
     public String toString() {
         return "[" + typeOfTask + "]" + super.toString() + "(at: " + eventDateTime + ")";
