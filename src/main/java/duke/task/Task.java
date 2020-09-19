@@ -4,6 +4,9 @@ public abstract class Task {
     private String description;
     private boolean isDone;
 
+    private static final String TICK_ICON = "\u2713";
+    private static final String CROSS_ICON = "\u2718";
+
     public Task(String description) {
         this.description = description;
         isDone = false;
@@ -11,9 +14,9 @@ public abstract class Task {
 
     public String getStatusIcon() {
         if (isDone) {
-            return "\u2713";
+            return TICK_ICON;
         } else {
-            return "\u2718";
+            return CROSS_ICON;
         }
     }
 

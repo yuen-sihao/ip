@@ -14,6 +14,47 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
+
+    private static final String MESSAGE_DUKE_LOGO =
+            " ____        _        \n"
+                    + "|  _ \\ _   _| | _____ \n"
+                    + "| | | | | | | |/ / _ \\\n"
+                    + "| |_| | |_| |   <  __/\n"
+                    + "|____/ \\__,_|_|\\_\\___|\n";
+    private static final String MESSAGE_WELCOME = "Hello from" + System.lineSeparator()
+            + MESSAGE_DUKE_LOGO;
+    private static final String MESSAGE_GREETING = "Hello! I'm Duke" + System.lineSeparator()
+            + "How can I help you?";
+    private static final String MESSAGE_TASK_CREATE = "One more thing you got to do. Press on!";
+    private static final String MESSAGE_EMPTY_LIST = "Wow! I see that your list is empty";
+    private static final String MESSAGE_LIST_HEADER = "Here are the tasks in your list:";
+    private static final String MESSAGE_TASK_DONE = "Nice. One more down!";
+    private static final String MESSAGE_TASK_DELETE = "A non-essential task ya? Ok removed!";
+    private static final String MESSAGE_GOODBYE = "Bye. See you soon!";
+    private static final String LINE_SPACING = "_____________________________________________";
+
+    private static final String USER_COMMAND_LIST = "list";
+    private static final String USER_COMMAND_TODO = "todo";
+    private static final String USER_COMMAND_DEADLINE = "deadline";
+    private static final String USER_COMMAND_EVENT = "event";
+    private static final String USER_COMMAND_DELETE = "delete";
+    private static final String USER_COMMAND_DONE = "done";
+    private static final String USER_COMMAND_BYE = "bye";
+
+    private static final String ERROR_INVALID_DEADLINE = "You need to let me know"
+            + System.lineSeparator() + "\"deadline <task name> /by <deadline details>\"";
+    private static final String ERROR_INVALID_EVENT = "You need to let me know"
+            + System.lineSeparator() + "\"event <task name> /at <event details>\"";
+    private static final String ERROR_INVALID_DELETE = "No such task to begin with!";
+    private static final String ERROR_INVALID_TASK_NUMBER = "I see no such task number." +
+            "You're making me confused!";
+    private static final String ERROR_INVALID_TASK_TYPE = "I'm sorry I don't understand you."
+            + System.lineSeparator() + "Would you like to tell me again?";
+    private static final String ERROR_INVALID_IO = "I/O error has occurred";
+
+    private static final String DATA_FILE_DIR = "data/";
+    private static final String DATA_FILE = DATA_FILE_DIR + "/duke.txt";
+
     public static void main(String[] args) {
         printWelcomeMessage();
         ArrayList<Task> tasks = new ArrayList<>();
@@ -24,17 +65,17 @@ public class Duke {
         while (!isFinished && input.hasNextLine()) {
             command = input.nextLine();
             printSingleLine();
-            if (command.equals("bye")) {
+            if (command.equals(USER_COMMAND_BYE)) {
                 printGoodbyeMessage();
                 isFinished = true;
-            } else if (command.equals("list")) {
+            } else if (command.equals(USER_COMMAND_LIST)) {
                 printListOfTask(tasks);
             } else {
                 updateListOfTask(command, tasks);
                 try {
                     saveListToFile(tasks, pathOfDataFile);
                 } catch (IOException e) {
-                    System.out.println("I/O error has occurred");
+                    System.out.println(ERROR_INVALID_IO);
                 }
             }
         }
@@ -42,12 +83,12 @@ public class Duke {
 
     private static String loadListFromFile(ArrayList<Task> tasks) {
         checkIfDirectoryExists();
-        String pathOfDataFile = "data/duke.txt";
+        String pathOfDataFile = DATA_FILE;
         try {
             File dataFile = checkIfFileExists(pathOfDataFile);
             readListFromFile(tasks, dataFile);
         } catch (IOException e) {
-            System.out.println("I/O error has occurred");
+            System.out.println(ERROR_INVALID_IO);
         }
 
         if (tasks.size() > 0) {
@@ -85,7 +126,7 @@ public class Duke {
                 addTaskToList(tasks, statusOfSavedTask, newTask);
                 break;
             default:
-                System.out.println("Unknown task type");
+                System.out.println(ERROR_INVALID_TASK_TYPE);
                 break;
             }
         }
@@ -107,14 +148,14 @@ public class Duke {
     }
 
     private static void checkIfDirectoryExists() {
-        File directory = new File("data/");
+        File directory = new File(DATA_FILE_DIR);
         if (!directory.exists()) {
             directory.mkdir();
         }
     }
 
     private static void saveListToFile(ArrayList<Task> tasks, String pathOfDataFile) throws IOException {
-        writeDataToFile(pathOfDataFile, "Here are the tasks in your list:"
+        writeDataToFile(pathOfDataFile, MESSAGE_LIST_HEADER
                                     + System.lineSeparator());
         for (Task task : tasks) {
             String description = task.getDescription();
@@ -143,7 +184,7 @@ public class Duke {
                         + status + " | " + description + "| " + eventDetails + System.lineSeparator());
                 break;
             default:
-                System.out.println("Unknown task type");
+                System.out.println(ERROR_INVALID_TASK_TYPE);
                 break;
             }
         }
@@ -151,19 +192,19 @@ public class Duke {
 
     private static void determineTypeOfTask(ArrayList<Task> tasks, String typeOfTask, String description) {
         switch (typeOfTask) {
-        case "todo":
+        case USER_COMMAND_TODO:
             createTodoTask(tasks, description);
             break;
-        case "deadline":
+        case USER_COMMAND_DEADLINE:
             checkValidityOfDeadline(tasks, description);
             break;
-        case "event":
+        case USER_COMMAND_EVENT:
             checkValidityOfEvent(tasks, description);
             break;
-        case "done":
+        case USER_COMMAND_DONE:
             checkValidityOfCompletedTask(tasks, description);
             break;
-        case "delete":
+        case USER_COMMAND_DELETE:
             checkValidityOfTaskToDelete(tasks, description);
             break;
         default:
@@ -181,8 +222,7 @@ public class Duke {
         try {
             createDeadlineTask(tasks, description);
         } catch (DukeException e) {
-            System.out.println("You need to let me know"
-                    + System.lineSeparator() + "\"deadline <task name> /by <deadline details>\"");
+            System.out.println(ERROR_INVALID_DEADLINE);
             printSingleLine();
         }
     }
@@ -201,8 +241,7 @@ public class Duke {
         try {
             createEventTask(tasks, description);
         } catch (DukeException e) {
-            System.out.println("You need to let me know"
-                    + System.lineSeparator() + "\"event <task name> /at <event details>\"");
+            System.out.println(ERROR_INVALID_EVENT);
             printSingleLine();
         }
     }
@@ -223,17 +262,16 @@ public class Duke {
     }
 
     private static void printDetailsOfAddedTask(ArrayList<Task> tasks, Task newTask) {
-        System.out.println("One more thing you got to do. Press on!");
+        System.out.println(MESSAGE_TASK_CREATE);
         System.out.println(newTask.toString());
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        printSingleLine();
+        countNumberOfTask(tasks);
     }
 
     private static void checkValidityOfTaskToDelete(ArrayList<Task> tasks, String description) {
         try {
             deleteTaskFromList(tasks, description);
         } catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-            System.out.println("No such task to begin with!");
+            System.out.println(ERROR_INVALID_DELETE);
             printSingleLine();
         }
     }
@@ -247,10 +285,9 @@ public class Duke {
     }
 
     private static void printDetailsOfDeletedTask(ArrayList<Task> tasks, Task tasksToDelete) {
-        System.out.println("A non-essential task ya? Ok removed!");
+        System.out.println(MESSAGE_TASK_DELETE);
         System.out.println(tasksToDelete.toString());
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-        printSingleLine();
+        countNumberOfTask(tasks);
     }
 
     private static void updateListOfTask(String command, ArrayList<Task> tasks) {
@@ -267,9 +304,9 @@ public class Duke {
 
     private static void printListOfTask(ArrayList<Task> tasks) {
         if (tasks.size() == 0) {
-            System.out.println("Wow! I see that your list is empty");
+            System.out.println(MESSAGE_EMPTY_LIST);
         } else {
-            System.out.println("Here are the tasks in your list:");
+            System.out.println(MESSAGE_LIST_HEADER);
             for (int i = 0; i < tasks.size(); i++) {
                 System.out.println((i + 1) + "." + tasks.get(i).toString());
             }
@@ -281,7 +318,7 @@ public class Duke {
         try {
             updateTaskAsComplete(tasks, description);
         } catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
-            System.out.println("I see no such task number. You're making me confused!");
+            System.out.println(ERROR_INVALID_TASK_NUMBER);
             printSingleLine();
         }
     }
@@ -294,37 +331,35 @@ public class Duke {
     }
 
     private static void printDetailsOfCompletedTask(Task task) {
-        System.out.println("Nice. One more down!");
+        System.out.println(MESSAGE_TASK_DONE);
         System.out.println(task.toString());
         printSingleLine();
     }
 
+    private static void countNumberOfTask(ArrayList<Task> tasks) {
+        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+        printSingleLine();
+    }
+
     private static void printInvalidTaskMessage() {
-        System.out.println("I'm sorry I don't understand you."
-                + System.lineSeparator() + "Would you like to tell me again?");
+        System.out.println(ERROR_INVALID_TASK_TYPE);
         printSingleLine();
     }
 
     private static void printWelcomeMessage() {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("Hello from\n" + logo);
+        System.out.println(MESSAGE_WELCOME);
         printSingleLine();
-        System.out.println("Hello! I'm Duke");
-        System.out.println("How can I help you?");
+        System.out.println(MESSAGE_GREETING);
         printSingleLine();
     }
 
     private static void printGoodbyeMessage() {
-        System.out.println("Bye. See you soon!");
+        System.out.println(MESSAGE_GOODBYE);
         printSingleLine();
     }
 
     private static void printSingleLine() {
-        System.out.println("_____________________________________________");
+        System.out.println(LINE_SPACING);
     }
 
     private static void writeDataToFile(String pathOfFile, String dataToAdd) throws IOException {
