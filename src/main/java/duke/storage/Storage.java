@@ -4,13 +4,13 @@ import duke.task.Deadline;
 import duke.task.Event;
 import duke.task.Task;
 import duke.task.ToDo;
+import duke.tasklist.TaskList;
 import duke.ui.Ui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Storage {
@@ -38,19 +38,19 @@ public class Storage {
         }
     }
 
-    public void loadListFromFile(ArrayList<Task> tasks) {
+    public void loadListFromFile(TaskList tasks) {
         try {
             File dataFile = new File(DATA_FILE);
             readListFromFile(tasks, dataFile);
         } catch (IOException e) {
             System.out.println(ERROR_INVALID_IO);
         }
-        if (tasks.size() > 0) {
+        if (tasks.getTaskList().size() > 0) {
             Ui.printListOfTask(tasks);
         }
     }
 
-    private void readListFromFile(ArrayList<Task> tasks, File dataFile) throws FileNotFoundException {
+    private void readListFromFile(TaskList tasks, File dataFile) throws FileNotFoundException {
         Scanner fileReader = new Scanner(dataFile);
         if (fileReader.hasNextLine()) {
             fileReader.nextLine();
@@ -85,38 +85,38 @@ public class Storage {
         }
     }
 
-    private void addTaskToList(ArrayList<Task> tasks, String statusOfSavedTask, Task newTask) {
+    private void addTaskToList(TaskList tasks, String statusOfSavedTask, Task newTask) {
         if (statusOfSavedTask.equals("1")) {
             newTask.markAsDone();
         }
-        tasks.add(newTask);
+        tasks.getTaskList().add(newTask);
     }
 
-    public static void saveListToFile(ArrayList<Task> tasks, String pathOfDataFile) throws IOException {
+    public void saveListToFile(TaskList tasks, String pathOfDataFile) throws IOException {
         writeDataToFile(pathOfDataFile, MESSAGE_LIST_HEADER
                 + System.lineSeparator());
-        for (Task task : tasks) {
-            String description = task.getDescription();
+        for (int i = 0; i < tasks.getTaskList().size(); i++) {
+            String description = tasks.getTaskList().get(i).getDescription();
             String status;
-            if (task.getStatusIcon().equals("\u2713")) {
+            if (tasks.getTaskList().get(i).getStatusIcon().equals("\u2713")) {
                 status = "1";
             } else {
                 status = "0";
             }
-            String typeOfSaveTask = task.getTypeOfTask();
+            String typeOfSaveTask = tasks.getTaskList().get(i).getTypeOfTask();
             switch (typeOfSaveTask) {
             case "T":
                 appendDataToFile(pathOfDataFile, typeOfSaveTask + " | "
                         + status + " | " + description + System.lineSeparator());
                 break;
             case "D":
-                Deadline deadlineToSave = (Deadline) task;
+                Deadline deadlineToSave = (Deadline) tasks.getTaskList().get(i);
                 String deadlineDetails = deadlineToSave.getDeadline();
                 appendDataToFile(pathOfDataFile, typeOfSaveTask + " | "
                         + status + " | " + description + "| " + deadlineDetails + System.lineSeparator());
                 break;
             case "E":
-                Event eventToSave = (Event) task;
+                Event eventToSave = (Event) tasks.getTaskList().get(i);
                 String eventDetails = eventToSave.getEventDateTime();
                 appendDataToFile(pathOfDataFile, typeOfSaveTask + " | "
                         + status + " | " + description + "| " + eventDetails + System.lineSeparator());

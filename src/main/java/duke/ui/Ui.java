@@ -1,11 +1,8 @@
 package duke.ui;
 
-import duke.parser.Parser;
-import duke.storage.Storage;
 import duke.task.Task;
+import duke.tasklist.TaskList;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ui {
@@ -32,50 +29,21 @@ public class Ui {
 
     private static final String ERROR_INVALID_TASK_TYPE = "I'm sorry I don't understand you."
             + System.lineSeparator() + "Would you like to tell me again?";
-    private static final String ERROR_INVALID_IO = "I/O error has occurred";
 
-    private static final String USER_COMMAND_LIST = "list";
-    private static final String USER_COMMAND_BYE = "bye";
-
-    private static final String DATA_FILE_DIR = "data/";
-    private static final String DATA_FILE = DATA_FILE_DIR + "/duke.txt";
-
-    private final Scanner input;
+    public Scanner input;
 
     public Ui() {
         input = new Scanner(System.in);
     }
 
-    public void readUserCommandLoop(ArrayList<Task> tasks) {
-        String command;
-        boolean isFinished = false;
-        while (!isFinished && input.hasNextLine()) {
-            command = input.nextLine();
-            printSingleLine();
-            if (command.equals(USER_COMMAND_BYE)) {
-                printGoodbyeMessage();
-                isFinished = true;
-            } else if (command.equals(USER_COMMAND_LIST)) {
-                printListOfTask(tasks);
-            } else {
-                Parser.updateListOfTask(command, tasks);
-                try {
-                    Storage.saveListToFile(tasks, DATA_FILE);
-                } catch (IOException e) {
-                    System.out.println(ERROR_INVALID_IO);
-                }
-            }
-        }
-    }
-
-    public static void printWelcomeMessage() {
+    public void printWelcomeMessage() {
         System.out.println(MESSAGE_WELCOME);
         printSingleLine();
         System.out.println(MESSAGE_GREETING);
         printSingleLine();
     }
 
-    public static void printGoodbyeMessage() {
+    public void printGoodbyeMessage() {
         System.out.println(MESSAGE_GOODBYE);
         printSingleLine();
     }
@@ -84,25 +52,25 @@ public class Ui {
         System.out.println(LINE_SPACING);
     }
 
-    public static void printDetailsOfAddedTask(ArrayList<Task> tasks, Task newTask) {
+    public static void printDetailsOfAddedTask(TaskList tasks, Task newTask) {
         System.out.println(MESSAGE_TASK_CREATE);
         System.out.println(newTask.toString());
         countNumberOfTask(tasks);
     }
 
-    public static void printDetailsOfDeletedTask(ArrayList<Task> tasks, Task tasksToDelete) {
+    public static void printDetailsOfDeletedTask(TaskList tasks, Task tasksToDelete) {
         System.out.println(MESSAGE_TASK_DELETE);
         System.out.println(tasksToDelete.toString());
         countNumberOfTask(tasks);
     }
 
-    public static void printListOfTask(ArrayList<Task> tasks) {
-        if (tasks.size() == 0) {
+    public static void printListOfTask(TaskList tasks) {
+        if (tasks.getTaskList().size() == 0) {
             System.out.println(MESSAGE_EMPTY_LIST);
         } else {
             System.out.println(MESSAGE_LIST_HEADER);
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + "." + tasks.get(i).toString());
+            for (int i = 0; i < tasks.getTaskList().size(); i++) {
+                System.out.println((i + 1) + "." + tasks.getTaskList().get(i).toString());
             }
         }
         printSingleLine();
@@ -114,13 +82,13 @@ public class Ui {
         printSingleLine();
     }
 
-    public static void printInvalidTaskMessage() {
+    public void printInvalidTaskMessage() {
         System.out.println(ERROR_INVALID_TASK_TYPE);
         printSingleLine();
     }
 
-    private static void countNumberOfTask(ArrayList<Task> tasks) {
-        System.out.println("Now you have " + tasks.size() + " tasks in the list.");
+    private static void countNumberOfTask(TaskList tasks) {
+        System.out.println("Now you have " + tasks.getTaskList().size() + " tasks in the list.");
         printSingleLine();
     }
 }

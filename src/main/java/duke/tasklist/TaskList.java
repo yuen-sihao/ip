@@ -29,12 +29,12 @@ public class TaskList {
         return tasks;
     }
 
-    public static void createTodoTask(ArrayList<Task> tasks, String description) {
+    public static void createTodoTask(TaskList tasks, String description) {
         Task newTask = new ToDo(description);
         addNewTaskToList(tasks, newTask);
     }
 
-    public static void checkValidityOfDeadline(ArrayList<Task> tasks, String description) {
+    public static void checkValidityOfDeadline(TaskList tasks, String description) {
         try {
             createDeadlineTask(tasks, description);
         } catch (DukeException e) {
@@ -43,7 +43,7 @@ public class TaskList {
         }
     }
 
-    private static void createDeadlineTask(ArrayList<Task> tasks, String description) throws DukeException {
+    private static void createDeadlineTask(TaskList tasks, String description) throws DukeException {
         if (!description.contains("/by")) {
             throw new DukeException();
         }
@@ -53,7 +53,7 @@ public class TaskList {
         addNewTaskToList(tasks, newTask);
     }
 
-    public static void checkValidityOfEvent(ArrayList<Task> tasks, String description) {
+    public static void checkValidityOfEvent(TaskList tasks, String description) {
         try {
             createEventTask(tasks, description);
         } catch (DukeException e) {
@@ -62,7 +62,7 @@ public class TaskList {
         }
     }
 
-    private static void createEventTask(ArrayList<Task> tasks, String description) throws DukeException {
+    private static void createEventTask(TaskList tasks, String description) throws DukeException {
         if (!description.contains("/at")) {
             throw new DukeException();
         }
@@ -72,12 +72,12 @@ public class TaskList {
         addNewTaskToList(tasks, newTask);
     }
 
-    private static void addNewTaskToList(ArrayList<Task> tasks, Task newTask) {
-        tasks.add(newTask);
+    private static void addNewTaskToList(TaskList tasks, Task newTask) {
+        tasks.getTaskList().add(newTask);
         Ui.printDetailsOfAddedTask(tasks, newTask);
     }
 
-    public static void checkValidityOfTaskToDelete(ArrayList<Task> tasks, String description) {
+    public static void checkValidityOfTaskToDelete(TaskList tasks, String description) {
         try {
             deleteTaskFromList(tasks, description);
         } catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
@@ -86,15 +86,15 @@ public class TaskList {
         }
     }
 
-    private static void deleteTaskFromList(ArrayList<Task> tasks, String description) {
+    private static void deleteTaskFromList(TaskList tasks, String description) {
         int taskNumber = Integer.parseInt(description);
         int indexOfTask = taskNumber - 1;
-        Task tasksToDelete = tasks.get(indexOfTask);
-        tasks.remove(tasksToDelete);
+        Task tasksToDelete = tasks.getTaskList().get(indexOfTask);
+        tasks.getTaskList().remove(tasksToDelete);
         Ui.printDetailsOfDeletedTask(tasks, tasksToDelete);
     }
 
-    public static void checkValidityOfCompletedTask(ArrayList<Task> tasks, String description) {
+    public static void checkValidityOfCompletedTask(TaskList tasks, String description) {
         try {
             updateTaskAsComplete(tasks, description);
         } catch (NumberFormatException | IndexOutOfBoundsException | NullPointerException e) {
@@ -103,10 +103,10 @@ public class TaskList {
         }
     }
 
-    private static void updateTaskAsComplete(ArrayList<Task> tasks, String description) {
+    private static void updateTaskAsComplete(TaskList tasks, String description) {
         int taskNumber = Integer.parseInt(description);
         int indexOfTask = taskNumber - 1;
-        tasks.get(indexOfTask).markAsDone();
-        Ui.printDetailsOfCompletedTask(tasks.get(indexOfTask));
+        tasks.getTaskList().get(indexOfTask).markAsDone();
+        Ui.printDetailsOfCompletedTask(tasks.getTaskList().get(indexOfTask));
     }
 }
