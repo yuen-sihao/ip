@@ -7,6 +7,8 @@ import duke.task.Task;
 import duke.task.ToDo;
 import duke.ui.Ui;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TaskList {
@@ -18,6 +20,11 @@ public class TaskList {
     private static final String ERROR_INVALID_DELETE = "No such task to begin with!";
     private static final String ERROR_INVALID_TASK_NUMBER = "I see no such task number." +
             "You're making me confused!";
+
+    private static final String FORMAT_DATE = "dd MMM yyyy";
+
+    private static final String DELIMITER_BY = "/by";
+    private static final String DELIMITER_AT = "/at";
 
     private ArrayList<Task> tasks;
 
@@ -44,11 +51,19 @@ public class TaskList {
     }
 
     private static void createDeadlineTask(TaskList tasks, String description) throws DukeException {
-        if (!description.contains("/by")) {
+        if (!description.contains(DELIMITER_BY)) {
             throw new DukeException();
         }
-        String[] deadlineDetails = description.split("/by");
+        String[] deadlineDetails = description.split(DELIMITER_BY);
         String deadline = deadlineDetails[1].trim();
+
+        try {
+            LocalDate date = LocalDate.parse(deadline);
+            deadline = date.format(DateTimeFormatter.ofPattern(FORMAT_DATE));
+        } catch (java.time.format.DateTimeParseException e) {
+            //deadline given is not a date
+        }
+
         Task newTask = new Deadline(deadlineDetails[0], deadline);
         addNewTaskToList(tasks, newTask);
     }
@@ -63,11 +78,19 @@ public class TaskList {
     }
 
     private static void createEventTask(TaskList tasks, String description) throws DukeException {
-        if (!description.contains("/at")) {
+        if (!description.contains(DELIMITER_AT)) {
             throw new DukeException();
         }
-        String[] eventDetails = description.split("/at");
+        String[] eventDetails = description.split(DELIMITER_AT);
         String eventDateTime = eventDetails[1].trim();
+
+        try {
+            LocalDate date = LocalDate.parse(eventDateTime);
+            eventDateTime = date.format(DateTimeFormatter.ofPattern(FORMAT_DATE));
+        } catch (java.time.format.DateTimeParseException e) {
+            //eventDateTime given is not a date
+        }
+
         Task newTask = new Event(eventDetails[0], eventDateTime);
         addNewTaskToList(tasks, newTask);
     }
