@@ -28,8 +28,6 @@ public abstract class Task {
         return description;
     }
 
-    public abstract String getTypeOfTask();
-
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;

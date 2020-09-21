@@ -25,15 +25,14 @@ public class Parser {
             currentCommand = new ListCommand();
         } else {
             int indexToSplit = command.indexOf(' ');
-            String typeOfTask = command.substring(0, indexToSplit);
+            String userCommand = command.substring(0, indexToSplit);
             String description = command.substring(indexToSplit);
             description = description.trim();
-
-            switch (typeOfTask) {
+            switch (userCommand) {
             case USER_COMMAND_TODO:
             case USER_COMMAND_DEADLINE:
             case USER_COMMAND_EVENT:
-                currentCommand = new AddCommand(typeOfTask, description);
+                currentCommand = new AddCommand(userCommand, description);
                 break;
             case USER_COMMAND_DONE:
                 currentCommand = new DoneCommand(description);

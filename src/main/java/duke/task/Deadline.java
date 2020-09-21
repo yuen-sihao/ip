@@ -10,10 +10,6 @@ public class Deadline extends Task {
         typeOfTask = "D";
     }
 
-    public String getTypeOfTask() {
-        return typeOfTask;
-    }
-
     public String getDeadline() {
         return deadline;
     }

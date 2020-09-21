@@ -22,6 +22,7 @@ public class Storage {
             + System.lineSeparator() + "Would you like to tell me again?";
 
     private static final String MESSAGE_LIST_HEADER = "Here are the tasks in your list:";
+    private static final String TICK_ICON = "\u2713";
 
     public Storage(String pathOfDataFile) {
         File directory = new File(DATA_FILE_DIR);
@@ -98,32 +99,28 @@ public class Storage {
         for (int i = 0; i < tasks.getTaskList().size(); i++) {
             String description = tasks.getTaskList().get(i).getDescription();
             String status;
-            if (tasks.getTaskList().get(i).getStatusIcon().equals("\u2713")) {
+            if (tasks.getTaskList().get(i).getStatusIcon().equals(TICK_ICON)) {
                 status = "1";
             } else {
                 status = "0";
             }
-            String typeOfSaveTask = tasks.getTaskList().get(i).getTypeOfTask();
-            switch (typeOfSaveTask) {
-            case "T":
-                appendDataToFile(pathOfDataFile, typeOfSaveTask + " | "
+
+            Task taskToSave = tasks.getTaskList().get(i);
+            if (taskToSave instanceof ToDo) {
+                appendDataToFile(pathOfDataFile, "T | "
                         + status + " | " + description + System.lineSeparator());
-                break;
-            case "D":
+            }
+            else if (taskToSave instanceof Deadline) {
                 Deadline deadlineToSave = (Deadline) tasks.getTaskList().get(i);
                 String deadlineDetails = deadlineToSave.getDeadline();
-                appendDataToFile(pathOfDataFile, typeOfSaveTask + " | "
+                appendDataToFile(pathOfDataFile, "D | "
                         + status + " | " + description + "| " + deadlineDetails + System.lineSeparator());
-                break;
-            case "E":
+            }
+            else if (taskToSave instanceof Event) {
                 Event eventToSave = (Event) tasks.getTaskList().get(i);
                 String eventDetails = eventToSave.getEventDateTime();
-                appendDataToFile(pathOfDataFile, typeOfSaveTask + " | "
+                appendDataToFile(pathOfDataFile, "E | "
                         + status + " | " + description + "| " + eventDetails + System.lineSeparator());
-                break;
-            default:
-                System.out.println(ERROR_INVALID_TASK_TYPE);
-                break;
             }
         }
     }
