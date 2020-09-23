@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Storage {
+    /** Directory and file that the list is saved to */
     private static final String DATA_FILE_DIR = "data/";
     private static final String DATA_FILE = DATA_FILE_DIR + "/duke.txt";
 
+    /** Errors by this program */
     private static final String ERROR_INVALID_IO = "I/O error has occurred";
     private static final String ERROR_INVALID_TASK_TYPE = "I'm sorry I don't understand you."
             + System.lineSeparator() + "Would you like to tell me again?";
@@ -24,6 +26,13 @@ public class Storage {
     private static final String MESSAGE_LIST_HEADER = "Here are the tasks in your list:";
     private static final String TICK_ICON = "\u2713";
 
+    /**
+     * Checks if the specified directory and file exists.
+     * If the specified directory does not exists, directory is created.
+     * If the specified file does not exists, file is created.
+     *
+     * @param pathOfDataFile File path to specify the directory and file.
+     */
     public Storage(String pathOfDataFile) {
         File directory = new File(DATA_FILE_DIR);
         if (!directory.exists()) {
@@ -39,6 +48,11 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads the list of tasks from the data file.
+     *
+     * @param tasks List that the data file is loaded to.
+     */
     public void loadListFromFile(TaskList tasks) {
         try {
             File dataFile = new File(DATA_FILE);
@@ -93,6 +107,13 @@ public class Storage {
         tasks.getTaskList().add(newTask);
     }
 
+    /**
+     * Saves the list of tasks to the data file.
+     *
+     * @param tasks List that is saved to the data file.
+     * @param pathOfDataFile File path to specify the directory and file.
+     * @throws IOException If pathOfDataFile is not available.
+     */
     public void saveListToFile(TaskList tasks, String pathOfDataFile) throws IOException {
         writeDataToFile(pathOfDataFile, MESSAGE_LIST_HEADER
                 + System.lineSeparator());

@@ -10,6 +10,7 @@ import duke.command.ListCommand;
 
 public class Parser {
 
+    /** Types of user commands accepted by this program */
     private static final String USER_COMMAND_TODO = "todo";
     private static final String USER_COMMAND_DEADLINE = "deadline";
     private static final String USER_COMMAND_EVENT = "event";
@@ -19,6 +20,12 @@ public class Parser {
     private static final String USER_COMMAND_LIST = "list";
     private static final String USER_COMMAND_BYE = "bye";
 
+    /**
+     * Parses and determine the command to execute.
+     *
+     * @param command Command entered by the user.
+     * @return Command object of the specified command type.
+     */
     public static Command parse(String command) {
         Command currentCommand = null;
         if (command.equals(USER_COMMAND_BYE)) {

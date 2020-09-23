@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class TaskList {
 
+    /** Error messages by this program */
     private static final String ERROR_INVALID_DEADLINE = "You need to let me know"
             + System.lineSeparator() + "\"deadline <task name> /by <deadline details>\"";
     private static final String ERROR_INVALID_EVENT = "You need to let me know"
@@ -21,26 +22,49 @@ public class TaskList {
     private static final String ERROR_INVALID_TASK_NUMBER = "I see no such task number." +
             "You're making me confused!";
 
+    /** Format of the date printed when it is provided by user */
     private static final String FORMAT_DATE = "dd MMM yyyy";
 
     private static final String DELIMITER_BY = "/by";
     private static final String DELIMITER_AT = "/at";
 
+    /** List to hold the tasks */
     private ArrayList<Task> tasks;
 
+    /**
+     * Initializes a Task list.
+     */
     public TaskList() {
         tasks = new ArrayList<>();
     }
 
+    /**
+     * Gets the list of tasks.
+     *
+     * @return List that contains the tasks.
+     */
     public ArrayList<Task> getTaskList() {
         return tasks;
     }
 
+    /**
+     * Creates and adds a ToDo task to the list.
+     *
+     * @param tasks List of tasks to add ToDo task to.
+     * @param description Description of the ToDo task.
+     */
     public static void createTodoTask(TaskList tasks, String description) {
         Task newTask = new ToDo(description);
         addNewTaskToList(tasks, newTask);
     }
 
+    /**
+     * Checks the validity of Deadline task.
+     * If Deadline task is valid, proceeds with the creation.
+     *
+     * @param tasks List of tasks to add Deadline task to.
+     * @param description Description of the Deadline task.
+     */
     public static void checkValidityOfDeadline(TaskList tasks, String description) {
         try {
             createDeadlineTask(tasks, description);
@@ -61,13 +85,20 @@ public class TaskList {
             LocalDate date = LocalDate.parse(deadline);
             deadline = date.format(DateTimeFormatter.ofPattern(FORMAT_DATE));
         } catch (java.time.format.DateTimeParseException e) {
-            //deadline given is not a date
+            /** deadline given is not a date */
         }
 
         Task newTask = new Deadline(deadlineDetails[0], deadline);
         addNewTaskToList(tasks, newTask);
     }
 
+    /**
+     * Checks the validity of Event task.
+     * If Event task is valid, proceeds with the creation.
+     *
+     * @param tasks List of tasks to add Event task to.
+     * @param description Description of the Event task.
+     */
     public static void checkValidityOfEvent(TaskList tasks, String description) {
         try {
             createEventTask(tasks, description);
@@ -88,7 +119,7 @@ public class TaskList {
             LocalDate date = LocalDate.parse(eventDateTime);
             eventDateTime = date.format(DateTimeFormatter.ofPattern(FORMAT_DATE));
         } catch (java.time.format.DateTimeParseException e) {
-            //eventDateTime given is not a date
+            /** eventDateTime given is not a date */
         }
 
         Task newTask = new Event(eventDetails[0], eventDateTime);
@@ -100,6 +131,13 @@ public class TaskList {
         Ui.printDetailsOfAddedTask(tasks, newTask);
     }
 
+    /**
+     * Checks the validity of task to delete.
+     * If task to delete is valid, proceeds with deletion.
+     *
+     * @param tasks List that contains the task to delete.
+     * @param description Description of the task to be deleted.
+     */
     public static void checkValidityOfTaskToDelete(TaskList tasks, String description) {
         try {
             deleteTaskFromList(tasks, description);
@@ -117,6 +155,13 @@ public class TaskList {
         Ui.printDetailsOfDeletedTask(tasks, tasksToDelete);
     }
 
+    /**
+     * Checks the validity of completed task.
+     * If completed task is valid, proceeds with updating task as completed.
+     *
+     * @param tasks List that contains the completed task.
+     * @param description Description of the completed task.
+     */
     public static void checkValidityOfCompletedTask(TaskList tasks, String description) {
         try {
             updateTaskAsComplete(tasks, description);
