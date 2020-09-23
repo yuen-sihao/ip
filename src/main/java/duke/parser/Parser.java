@@ -5,6 +5,7 @@ import duke.command.ByeCommand;
 import duke.command.Command;
 import duke.command.DeleteCommand;
 import duke.command.DoneCommand;
+import duke.command.FindCommand;
 import duke.command.ListCommand;
 
 public class Parser {
@@ -15,6 +16,7 @@ public class Parser {
     private static final String USER_COMMAND_EVENT = "event";
     private static final String USER_COMMAND_DELETE = "delete";
     private static final String USER_COMMAND_DONE = "done";
+    private static final String USER_COMMAND_FIND = "find";
     private static final String USER_COMMAND_LIST = "list";
     private static final String USER_COMMAND_BYE = "bye";
 
@@ -46,6 +48,9 @@ public class Parser {
                 break;
             case USER_COMMAND_DELETE:
                 currentCommand = new DeleteCommand(description);
+                break;
+            case USER_COMMAND_FIND:
+                currentCommand = new FindCommand(description);
                 break;
             default:
                 break;
