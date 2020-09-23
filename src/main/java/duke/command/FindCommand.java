@@ -4,16 +4,32 @@ import duke.storage.Storage;
 import duke.tasklist.TaskList;
 import duke.ui.Ui;
 
+/**
+ * Finds a task from the list.
+ */
 public class FindCommand extends Command {
+    /** Error messages by this program */
     private static final String MESSAGE_FIND_VALID = "Here are some matching tasks I found you:";
     private static final String MESSAGE_FIND_INVALID = "I can't find any matching tasks.";
 
     private String description;
 
+    /**
+     * Class constructor of the Find command.
+     *
+     * @param description Description of the task to be found.
+     */
     public FindCommand(String description) {
         this.description = description;
     }
 
+    /**
+     * Executes the Find command.
+     *
+     * @param tasks List that contains the task to be found.
+     * @param ui UI of the program.
+     * @param storage File that holds the list of tasks.
+     */
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         Boolean hasMatch = false;
         int numberOfTaskFound = 0;
@@ -33,6 +49,11 @@ public class FindCommand extends Command {
         ui.printSingleLine();
     }
 
+    /**
+     * Returns decision to terminate the program.
+     *
+     * @return decision.
+     */
     public Boolean isExit() {
         return false;
     }
