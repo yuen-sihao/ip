@@ -1,14 +1,6 @@
 # User Guide
 Duke is a desktop application to help you in the management of tasks.
 
-## Before you begin:
-1. Ensure that you have **Java 11** installed on your computer.
-2. Ensure that you have the latest version of `Duke.jar`. You can get it from [here](https://github.com/yuen-sihao/ip/realeases).
-3. Transfer the `Duke.jar` file to a suitable local directory.
-4. Launch your command line terminal. For *Windows command line*, check that your font is set to **NSimSun**.
-5. Navigate to the directory that stores your `Duke.jar` file.
-6. Run the ```java -Dfile.encoding=UTF-8 -jar Duke.jar``` to launch the Duke application.
-
 ## Features 
 
 ### Task Management
@@ -21,6 +13,51 @@ Duke is a desktop application to help you in the management of tasks.
 Modifications to the tasks in the list are automatically saved to a file and loaded on start up.
 
 ## Usage
+
+## Before you begin:
+1. Ensure that you have **Java 11** installed on your computer.
+2. Ensure that you have the latest version of `Duke.jar`. You can get it from [here](https://github.com/yuen-sihao/ip/releases).
+3. Transfer the `Duke.jar` file to a suitable local directory.
+4. Launch your command line terminal. For *Windows command line*, run the `chcp 65001` command and check that your font is set to **NSimSun**.
+5. Navigate to the directory that stores your `Duke.jar` file.
+6. Run ```java -Dfile.encoding=UTF-8 -jar Duke.jar``` to launch the Duke application.
+7. You should see the welcome screen as shown below. For returning users, you will see your list of existing tasks as well.
+
+Expected outcome 1:
+```
+Hello from
+ ____        _        
+|  _ \ _   _| | _____ 
+| | | | | | | |/ / _ \
+| |_| | |_| |   <  __/
+|____/ \__,_|_|\_\___|
+
+_____________________________________________
+Hello! I'm Duke
+How can I help you?
+_____________________________________________
+```
+
+Expected outcome 2:
+```
+Hello from
+ ____        _        
+|  _ \ _   _| | _____ 
+| | | | | | | |/ / _ \
+| |_| | |_| |   <  __/
+|____/ \__,_|_|\_\___|
+
+_____________________________________________
+Hello! I'm Duke
+How can I help you?
+_____________________________________________
+Here are the tasks in your list:
+1.[T][✓] read book
+2.[D][✘] return book (by: June 6th)
+3.[E][✘] project meeting (at: Aug 6th 2-4pm)
+4.[T][✓] join sports club
+_____________________________________________
+```
 
 ### Listing the tasks `list`
 This allows you to list out all the tasks in the list.
