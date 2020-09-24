@@ -197,7 +197,7 @@ Here are some matching tasks I found you:
 _____________________________________________
 ```
 
-Exiting this Duke application (`bye`)
+### Exiting this Duke application (`bye`)
 This allows you to terminate this Duke application smoothly.
 
 Command: `bye`
