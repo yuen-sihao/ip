@@ -14,11 +14,11 @@ Modifications to the tasks in the list are automatically saved to a file and loa
 
 ## Usage
 
-## Before you begin:
+### Before you begin:
 1. Ensure that you have **Java 11** installed on your computer.
 2. Ensure that you have the latest version of `Duke.jar`. You can get it from [here](https://github.com/yuen-sihao/ip/releases).
 3. Transfer the `Duke.jar` file to a suitable local directory.
-4. Launch your command line terminal. For *Windows command line*, run the `chcp 65001` command and check that your font is set to **NSimSun**.
+4. Launch your command line terminal. For *Windows command line*, run the **chcp 65001** command and check that your font is set to **NSimSun**.
 5. Navigate to the directory that stores your `Duke.jar` file.
 6. Run ```java -Dfile.encoding=UTF-8 -jar Duke.jar``` to launch the Duke application.
 7. You should see the welcome screen as shown below. For returning users, you will see your list of existing tasks as well.
@@ -59,7 +59,7 @@ Here are the tasks in your list:
 _____________________________________________
 ```
 
-### Listing the tasks `list`
+### Listing the tasks (`list`)
 This allows you to list out all the tasks in the list.
 
 Command: `list`
@@ -76,7 +76,7 @@ Here are the tasks in your list:
 _____________________________________________
 ```
 
-### Adding a ToDo task `todo`
+### Adding a ToDo task (`todo`)
 This allows you to create a Todo task in the list.
 
 Command: `todo TASK_DESCRIPTION`
@@ -91,7 +91,7 @@ Now you have 5 tasks in the list.
 _____________________________________________
 ```
 
-### Adding a Deadline task `deadline`
+### Adding a Deadline task (`deadline`)
 This allows you to create a Deadline task in the list.
 
 Command:
@@ -122,7 +122,7 @@ Now you have 7 tasks in the list.
 _____________________________________________
 ```
 
-### Adding a Event task `event`
+### Adding a Event task (`event`)
 This allows you to create a Event task in the list.
 
 Command:
@@ -153,7 +153,7 @@ Now you have 9 tasks in the list.
 _____________________________________________
 ```
 
-### Deleting a task `delete`
+### Deleting a task (`delete`)
 This allows you to delete a task from the list.
 
 Command: `delete TASK_NUMBER`
@@ -168,7 +168,7 @@ Now you have 8 tasks in the list.
 _____________________________________________
 ```
 
-### Marking a task as done `done`
+### Marking a task as done (`done`)
 This allows you to mark a task in the list as done.
 
 Command: `done TASK_NUMBER`
@@ -182,7 +182,7 @@ Nice. One more down!
 _____________________________________________
 ```
 
-### Finding a task `find`
+### Finding a task (`find`)
 This allows you to find tasks in the list related to the specified keyword.
 
 Command: `find KEYWORD`
@@ -197,7 +197,7 @@ Here are some matching tasks I found you:
 _____________________________________________
 ```
 
-Exiting this Duke application `bye`
+Exiting this Duke application (`bye`)
 This allows you to terminate this Duke application smoothly.
 
 Command: `bye`
