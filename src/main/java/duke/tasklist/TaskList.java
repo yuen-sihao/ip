@@ -7,7 +7,7 @@ import duke.task.Task;
 import duke.task.ToDo;
 import duke.ui.Ui;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -23,7 +23,12 @@ public class TaskList {
             "You're making me confused!";
 
     /** Format of the date printed when it is provided by user */
-    private static final String FORMAT_DATE = "dd MMM yyyy";
+    private static final String FORMAT_DATE_TIME = "dd MMM yyyy h:mm a";
+
+    /** Message to remind users of date and time format */
+    private static final String FORMAT_REMINDER = "A friendly reminder: " + System.lineSeparator()
+            + "If your task has both a date and time," + System.lineSeparator()
+            + "please specify <YYYY-MM-DD>T<hh:mm>";
 
     private static final String DELIMITER_BY = "/by";
     private static final String DELIMITER_AT = "/at";
@@ -80,14 +85,7 @@ public class TaskList {
         }
         String[] deadlineDetails = description.split(DELIMITER_BY);
         String deadline = deadlineDetails[1].trim();
-
-        try {
-            LocalDate date = LocalDate.parse(deadline);
-            deadline = date.format(DateTimeFormatter.ofPattern(FORMAT_DATE));
-        } catch (java.time.format.DateTimeParseException e) {
-            /** deadline given is not a date */
-        }
-
+        deadline = checksForDateTimeInTask(deadline);
         Task newTask = new Deadline(deadlineDetails[0], deadline);
         addNewTaskToList(tasks, newTask);
     }
@@ -114,14 +112,7 @@ public class TaskList {
         }
         String[] eventDetails = description.split(DELIMITER_AT);
         String eventDateTime = eventDetails[1].trim();
-
-        try {
-            LocalDate date = LocalDate.parse(eventDateTime);
-            eventDateTime = date.format(DateTimeFormatter.ofPattern(FORMAT_DATE));
-        } catch (java.time.format.DateTimeParseException e) {
-            /** eventDateTime given is not a date */
-        }
-
+        eventDateTime = checksForDateTimeInTask(eventDateTime);
         Task newTask = new Event(eventDetails[0], eventDateTime);
         addNewTaskToList(tasks, newTask);
     }
@@ -129,6 +120,17 @@ public class TaskList {
     private static void addNewTaskToList(TaskList tasks, Task newTask) {
         tasks.getTaskList().add(newTask);
         Ui.printDetailsOfAddedTask(tasks, newTask);
+    }
+
+    private static String checksForDateTimeInTask(String taskDetails) {
+        try {
+            LocalDateTime date = LocalDateTime.parse(taskDetails);
+            taskDetails = date.format(DateTimeFormatter.ofPattern(FORMAT_DATE_TIME));
+        } catch (java.time.format.DateTimeParseException e) {
+            /** task given does not have both date and time */
+            System.out.println(FORMAT_REMINDER + System.lineSeparator());
+        }
+        return taskDetails;
     }
 
     /**
